@@ -100,4 +100,14 @@ class BelajarController extends Controller
         //     ]
         // )
     }
+
+    public function softDeleteTambahan(string $id)
+    {
+        //SELECT * FROM counts WHERE id = $id
+        $sDel = Count::findOrFail($id);
+        //DELETE FROM counts WHERE id = $id
+        $sDel->delete();
+
+        return redirect()->route('data.hitungan')->with('status', 'Data Dihapus Sementara');
+    }
 }

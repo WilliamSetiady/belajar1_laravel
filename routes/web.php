@@ -17,10 +17,11 @@ Route::get('/', function () {
 route::get('belajar',[\App\Http\Controllers\BelajarController::class, 'index']);
 route::get('tambah',[\App\Http\Controllers\BelajarController::class, 'tambah'])->name('tambah');
 
-route::get('data/hitungan', [BelajarController::class, 'viewHitungan']);
+route::get('data/hitungan', [BelajarController::class, 'viewHitungan'])->name('data.hitungan');
 route::get('edit/data-hitung/{id}', [BelajarController::class, 'editDataHitung'])->name('edit.data-hitung');
 route::get('edit/{id}', [\App\Http\Controllers\BelajarController::class, 'update']);
 route::put('update/tambahan/{id}', [BelajarController::class, 'updateTambahan'])->name('update.tambahan');
+route::delete('softDelete/data-hitung/{id}', [BelajarController::class, 'softDeleteTambahan'])->name('softDelete.data-hitung');
 
 route::get('duar', [\App\Http\Controllers\BelajarController::class, 'nuall']);
 
