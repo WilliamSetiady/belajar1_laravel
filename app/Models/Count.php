@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Count extends Model
 {
     use SoftDeletes;
-    protected $fillable = 
-    [
-        'jenis', 
-        'angka1', 
-        'angka2', 
-        'hasil'    
+    protected $fillable = [
+        'jenis',
+        'angka1',
+        'angka2',
+        'hasil'
     ];
 }
