@@ -1,13 +1,12 @@
 @extends('app')
 @section('content')
 
-<div class="container"></div>
     <div class="row">
-        <div class="col-10">
+        <div class="col-12">
             <div class="card">
-                <div class="card-header">Create Service</div>
                 <div class="card-body">
-                    <form action="" method="POST">
+                    <h3 class="card-title">{{$title}}</h3>
+                    <form action="{{route('service.store')}}" method="POST">
                         @csrf
                         <label for="">Name Service</label>
                         <input type="text" class="form-control" name="service_name" required>
@@ -22,6 +21,6 @@
             </div>
         </div>
     </div>
-</div>
+
 
 @endsection

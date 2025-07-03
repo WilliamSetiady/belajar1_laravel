@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Levels;
+use App\Models\Customers;
 
-class LevelController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class LevelController extends Controller
         // $datas = Levels::all();
 
         //mengambil dari levels dimana di order berdasarkan id, descending/menurun
-        $datas = Levels::orderBy('id', 'desc')->get();
-        $title = "Data Level";
-        return view('level.index', compact('datas', 'title'));
+        $datas = Customers::orderBy('id', 'desc')->get();
+        $title = "Data Pelanggan";
+        return view('customer.index', compact('datas', 'title'));
     }
 
     /**
@@ -26,8 +26,8 @@ class LevelController extends Controller
     public function create()
     {
         //
-        $title = "Tambah Level";
-        return view('level.create', compact('title'));
+        $title = "Tambah Pelanggan";
+        return view('customer.create', compact('title'));
     }
 
     /**
@@ -36,8 +36,8 @@ class LevelController extends Controller
     public function store(Request $request)
     {
         //
-        Levels::create($request->all());
-        return redirect()->to('level')->with('success', 'Data berhasil ditambah');
+        Customers::create($request->all());
+        return redirect()->to('customer')->with('success', 'Data berhasil ditambah');
     }
 
     /**
@@ -53,19 +53,19 @@ class LevelController extends Controller
      */
     public function edit(string $id)
     {
-        $title = "Edit Level";
-        //select all from level where id = idedit
+        $title = "Edit Pelanggan";
+        //select all from customer where id = idedit
 
         //menghasilkan blank bila tidak didapatkan datanya
-        $level = Levels::find($id);
+        $customer = Customers::find($id);
 
         //menghasilkan notfound bila tidak didapatkan datanya
-        // $level = Levels::findOrFail($id); 
+        // $customer = Customers::findOrFail($id); 
 
         //untuk foreign key
-        // $level = Levels::where('id', $id)->first(); 
+        // $customer = Customers::where('id', $id)->first(); 
 
-        return view('level.edit', compact('level', 'title'));
+        return view('customer.edit', compact('customer', 'title'));
     }
 
     /**
@@ -74,10 +74,12 @@ class LevelController extends Controller
     public function update(Request $request, string $id)
     {
         // view edit
-        $level = Levels::find($id);
-        $level->name = $request->name;
-        $level->save();
-        return redirect()->to('level')->with('success', 'Data Berhasil Diubah');
+        $customer = Customers::find($id);
+        $customer->name = $request->name;
+        $customer->phone = $request->phone;
+        $customer->address = $request->address;
+        $customer->save();
+        return redirect()->to('customer')->with('success', 'Data Berhasil Diubah');
     }
 
     /**
@@ -86,9 +88,9 @@ class LevelController extends Controller
     public function destroy(string $id)
     {
         //
-        $level = Levels::findOrFail($id);
-        $level->delete();
+        $customer = Customers::findOrFail($id);
+        $customer->delete();
 
-        return redirect()->to('level')->with('success', 'Hapus Berhasil');
+        return redirect()->to('customer')->with('success', 'Hapus Berhasil');
     }
 }

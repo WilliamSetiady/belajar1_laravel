@@ -1,10 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BelajarController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LevelController;
+use App\Http\Controllers\TransOrderController;
+use App\Http\Controllers\UserController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -19,8 +23,14 @@ Route::post('actionLogin',  [LoginController::class, 'actionLogin'])->name('acti
 Route::middleware(['auth'])->group(function () {
     Route::resource('dashboard', DashboardController::class);
     Route::resource('level', LevelController::class);
-    Route::get('service', [DashboardController::class, 'indexService'])->name('service');
-    Route::get('insert/service', [DashboardController::class, 'showInsService']);
+    Route::resource('service', ServiceController::class);
+    Route::resource('customer', CustomerController::class);
+    Route::resource('user', UserController::class);
+    Route::resource('trans', TransOrderController::class);
+    Route::get('print_struk/{id}', [TransOrderController::class, 'printStruk'])->name('print_struk');
+    Route::post('trans/{id}/snap', [TransOrderController::class, 'snap'])->name('trans.snap');
+    // Route::get('service', [DashboardController::class, 'indexService'])->name('service');
+    // Route::get('insert/service', [DashboardController::class, 'showInsService']);
 });
 
 

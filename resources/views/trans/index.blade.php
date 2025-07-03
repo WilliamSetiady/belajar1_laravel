@@ -7,31 +7,36 @@
                 <div class="card-body">
                     <h3 class="card-title">{{$title}}</h3>
                     <div class="mb-3" align='right'>
-                        <a href="{{route('service.create')}}" class="btn btn-primary">Tambah</a>
+                        <a href="{{route('trans.create')}}" class="btn btn-primary">Tambah</a>
                     </div>
                     <table class="table table-bordered">
                         <tr>
                             <th>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Servis</th>
-                                    <th>Harga</th>
-                                    <th>Deskripsi</th>
+                                    <th>No. Pesanan</th>
+                                    <th>Pelanggan</th>
+                                    <th>Tanggal Selesai</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </th>
                             @foreach ($datas as $key => $data)   
                             <tr>
                                 <td>{{$key += 1}}</td>
-                                <td>{{$data->service_name}}</td>
-                                <td>{{number_format($data->price)}}</td>
-                                <td>{{$data->description}}</td>
                                 <td>
-                                    <a href="{{route('service.edit', $data->id)}}" class="btn btn-success">Edit</a>
-                                    <form action="{{route('service.destroy', $data->id)}}" method="POST" style="display: inline;">
+                                    <a href="{{route('trans.show', $data->id)}}">{{$data->order_code}}</a>
+                                </td>
+                                <td>{{$data->customer->name}}</td>
+                                <td>{{$data->order_end_date}}</td>
+                                <td>{{$data->status_text}}</td>
+                                <td>
+                                    <a href="{{route('print_struk', $data->id)}}" class="btn btn-info">Print</a>
+                                    <a href="{{route('trans.show', $data->id)}}" class="btn btn-success">Tampilkan</a>
+                                    <form action="{{route('trans.destroy', $data->id)}}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="" class="btn btn-danger m-2" type="submit" onclick="return confirm('yakin mau hapus?')">Delete </a>
+                                        <button class="btn btn-danger m-2" type="submit" onclick="return confirm('yakin mau hapus?')">Delete </button>
                                     </form>
                                 </td>
                             </tr>
