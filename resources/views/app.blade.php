@@ -190,22 +190,22 @@
       order_change: document.getElementById('order_change').value,
       payment_method: method,
       _token: ' {{csrf_token()}} '
-    };
+    }
     const orderId = form.dataset.orderId;
 
     if (method === 'cash') {
       form.submit();
     }else{
-      fetch('/trans/${orderId}/snap', {
+      fetch(`/trans/${orderId}/snap`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': data_token
+          'X-CSRF-TOKEN': data._token
         },
         body:JSON.stringify(data)
       })
       .then(res=>res.json())
-      .then(res=>{
+      .then(res=> {
         if(res.token){
           snap.pay(res.token, {
             onSuccess: function(result){
@@ -217,7 +217,7 @@
             onError: function(result){
               alert('Gagal');
             }
-          }),
+          });
         }else{
           alert("Gagal mengambil token pembayaran");
         }
