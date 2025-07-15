@@ -100,7 +100,12 @@ class TransOrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $order = TransOrders::findOrFail($id);
+        $order->order_pay = $request->order_pay;
+        $order->order_change = $request->order_change;
+        $order->order_status = 1;
+        $order->save();
+        return redirect()->to('trans')->with('success', 'Data berhasil diupdate');
     }
 
     /**

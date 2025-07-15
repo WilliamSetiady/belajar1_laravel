@@ -17,6 +17,7 @@
                             <th>Nama</th>
                             <th>Aksi</th>
                         </tr>
+                        
                     </thead>
                     <tbody>
                         @foreach ($datas as $key => $data )    

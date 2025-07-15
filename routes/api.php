@@ -13,8 +13,14 @@ Route::get('/', function () {
     return response()->json($response);
 });
 
+//harus login untuk dapat token
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [apiController::class, 'getUsers']);
+    Route::get('me', [apiController::class, 'getMe']);
+});
+
 Route::get('user/{id}', [apiController::class, 'editUser']);
-Route::get('user', [apiController::class, 'getUsers']);
 Route::post('user', [apiController::class, 'storeUser']);
 Route::put('user/{id}', [apiController::class, 'updateUser']);
 Route::delete('user/{id}', [apiController::class, 'deleteUser']);
+Route::post('login', [apiController::class, 'loginAction']);

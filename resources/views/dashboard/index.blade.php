@@ -1,5 +1,5 @@
 @extends('app');
-@section('content');
+@section(' ');
 <section class="section">
 
       <div class="row">

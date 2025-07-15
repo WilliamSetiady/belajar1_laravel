@@ -30,7 +30,7 @@
                                     <form action="{{route('user.destroy', $data->id)}}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="" class="btn btn-danger m-2" type="submit" onclick="return confirm('yakin mau hapus?')">Delete </a>
+                                        <button href="" class="btn btn-danger m-2" type="submit" onclick="return confirm('yakin mau hapus?')">Delete </button>
                                     </form>
                                 </td>
                             </tr>

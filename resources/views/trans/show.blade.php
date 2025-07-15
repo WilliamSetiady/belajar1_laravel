@@ -54,7 +54,7 @@
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title"> Detail Pemesanan </h3>
-                <form action="" method="post" id="paymentForm" data-order-id=" {{$details->id}} ">
+                <form action="{{route('trans.update', $details->id)}}" method="post" id="paymentForm" data-order-id=" {{$details->id}} ">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -98,6 +98,8 @@
                         </tbody>
                     </table>
                     <div class="mt-3">
+                        @csrf
+                        @method('PUT')
                         <button class="btn btn-primary" name="payment_method" value="cash">Bayar Cash</button>
                         <button class="btn btn-success" name="payment_method" value="midTrans">Cashless</button>
                     </div>
@@ -107,5 +109,89 @@
     </div>
 </div>
 
+<script>
+     const orderChange = document.getElementById('order_change');
+    const orderChangeDisplay = document.getElementById('order_change_display');
+    const orderPay = document.getElementById('order_pay');
+    const totalInput = document.getElementById('totalInput');
+    
+    //kembalian = bayar - total harga
+   function pay() {
+    const pay = parseFloat(orderPay.value) || 0;
+    const total = parseFloat(totalInput.value) || 0;
+    const change = pay - total;
+
+    // Access both display and hidden input fields
+    const changeGroup = orderChangeDisplay.closest('td'); // assuming inputs are inside the <td>
+
+    if (pay >= total) {
+        // Show and populate change fields
+        orderChangeDisplay.value = change.toLocaleString('id-ID');
+        orderChange.value = change;
+        changeGroup.style.display = ''; // show the cell
+    } else {
+        // Hide and clear change fields
+        orderChangeDisplay.value = '';
+        orderChange.value = '';
+        changeGroup.style.display = 'none'; // hide the cell
+    }
+}
+
+
+    orderPay.addEventListener('input', pay);
+  document.getElementById('paymentForm').addEventListener('submit', function(e){
+    e.preventDefault();   
+
+    const form = e.target;
+    const method = form.querySelector('[name="payment_method"]:checked, [name="payment_method"]:focus') ?.value;
+
+    const data ={
+      order_pay: document.getElementById('order_pay').value,
+      order_change: document.getElementById('order_change').value,
+      payment_method: method,
+      _token: ' {{csrf_token()}} '
+    }
+    const orderId = form.dataset.orderId;
+
+    if (method === 'cash') {
+      form.submit();
+    }else{
+      fetch(`/trans/${orderId}/snap`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': data._token
+        },
+        body:JSON.stringify(data)
+      })
+      .then(res=>res.json())
+      .then(res=> {
+        if(res.token){
+          snap.pay(res.token, {
+            onSuccess: function(result){
+              window.location.href = 'trans';
+            },
+            onPending: function(result){
+              alert('Silahkan selesaikan pembayaran anda.');
+            },
+            onError: function(result){
+              alert('Gagal');
+            }
+          });
+        }else{
+          alert("Gagal mengambil token pembayaran");
+        }
+      });
+    }
+  });
+
+  paymentInput.addEventListener('input', function() {
+        const paymentAmount = parseFloat(paymentInput.value) || 0;
+        const totalAmount = parseFloat(grandTotalInput.value) || 0;
+        const change = paymentAmount - totalAmount;
+
+        changeDisplay.textContent = change >= 0 ? change.toLocaleString('id-ID') : '0';
+    });
+</script>
 
 @endsection
